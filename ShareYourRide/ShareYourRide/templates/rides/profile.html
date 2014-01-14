@@ -1,0 +1,25 @@
+{% extends 'rides/base.html' %}
+
+{% load static %}
+
+{% block title %} 
+		{% if user.is_authenticated %}
+			{{ user.username }}
+		{% endif %}
+{% endblock %}
+
+{% block body_block %}
+<div class="hero-unit">
+              <h1> Profile <h1> <br/>
+           <h2>{{ user.username }}</h2>
+       <p>Email: {{ user.email }}</p>
+       
+       {% if up %}
+           <p>Website: <a href="{{ up.website }}">{{up.website}}</a></p>
+           <br/>
+       {% if up.picture %}
+           <img src="{{ up.picture.url }}"  />
+           {% endif %}
+           {% endif %}
+</div>
+{% endblock %}

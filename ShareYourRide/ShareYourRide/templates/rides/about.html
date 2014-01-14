@@ -1,0 +1,12 @@
+{% extends 'rides/base.html' %}
+
+{% load static %}
+
+{% block title %}{{ user.username }}{% endblock %}
+
+{% block body_block %}
+		<div class="hero-unit">
+        <h1>Profile Picture {{ visits }}</h1>
+        <img src="{% static ''|add:boldmessage  %}  " alt="Picture of Rango" /> <!-- Images -->
+        </div>
+{% endblock %}

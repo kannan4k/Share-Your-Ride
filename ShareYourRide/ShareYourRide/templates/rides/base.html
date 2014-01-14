@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Bootstrap -->
+        <link href="{% static 'css/bootstrap-fluid-adj.css' %}" rel="stylesheet">
+        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
+        <link href="{% static 'css/bootstrap-responsive.css' %}" rel="stylesheet">
+
+        <title>Share-Your-Ride  {% block title %}Share Your Ride!{% endblock %}</title>
+    </head>
+    <body>
+    	<div>
+    		<h1>Share Your Ride</h1>
+    	</div>
+        <div>
+            <div class="navbar navbar-inverse navbar-fixed-top">
+               <div class="navbar-inner">
+                   <div class="container">
+                       <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                           <span class="icon-bar"></span>
+                           <span class="icon-bar"></span>
+                           <span class="icon-bar"></span>
+                       </button>
+                       <a class="brand" href="/rides/">Rides</a>
+
+                       <div class="nav-collapse collapse">
+                           <ul class="nav pull-right">
+                               {% if user.is_authenticated %}
+                                <li class="navbar-text">Welcome, {{ user.username }}!</li>
+                                <li><a href="/rides/profile/">Profile</a></li>
+                                <li><a href="/rides/logout/">Logout</a></li>
+                               {% else %}
+                                <li><a href="/rides/register/">Register</a></li>
+                                <li><a href="/rides/login/">Login</a></li>
+                               {% endif %}
+                           </ul>
+                           <ul class="nav">
+                               {% if user.is_authenticated %}
+                                <li><a href="/rides/restricted/">Restricted</a></li>
+                               {% endif %}
+                               <li><a href="/rides/about/">About</a></li>
+                           </ul>
+                       </div>
+                       <!--/.nav-collapse -->
+                   </div>
+               </div>
+            </div>
+
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span3">
+                        <div class="well sidebar-nav">
+                            <!--- Empty for the timebeing -->
+                            <input  class="input-medium search-query" type="text" name="suggestion" value="" id="suggestion" />
+                            <div id="cats">
+					        	
+					        </div>
+                        </div>
+                        <!--/.well -->
+                    </div>
+                    <!--/span-->
+                    <div class="span9">
+                    	
+                        {% block body_block %}
+                        {% endblock %}
+                        
+                    </div>
+                    <!--/span-->
+                </div>
+                <!--/row-->
+            </div>
+            <!--/.fluid-container-->
+
+        <hr>
+        </div>
+        <hr />
+    <script src="{% static 'js/jquery-2.0.3.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'js/rango-ajax.js' %}"></script>
+    </body>
+
+    <footer>
+    <div class="container">
+        <p>&copy; Share Your Ride 2014</p>
+    </div>
+</footer>
+
+</html>
