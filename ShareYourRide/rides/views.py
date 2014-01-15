@@ -1,7 +1,7 @@
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from rides.models import UserProfile
-from rides.forms import UserForm, UserProfileForm
+from rides.forms import UserForm, UserProfileForm, RideForm, DriverForm, AddressForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
@@ -74,7 +74,37 @@ def profile(request):
         up = None
     return render_to_response('rides/profile.html',{'up':up}, context )
 
-          
+
+@login_required
+def postride(request):
+    context = RequestContext(request)
+    if request.method == 'POST':
+        sourceAddressForm = AddressForm(request.POST, prefix='source')
+        destinationAddressForm = AddressForm(request.POST, prefix='destination')
+        rideForm = RideForm(request.POST,prefix='ride')
+        ride = rideForm.save(commit=False)
+        driverForm = DriverForm(request.POST, prefix = 'driver')
+        if rideForm.is_valid() and sourceAddressForm.is_valid() and destinationAddressForm.is_valid() : #and driverForm.is_valid():
+            source = sourceAddressForm.save()
+            destination = destinationAddressForm.save()
+            ride.add_source = source
+            ride.add_source = destination
+            ride.save()
+            return index(request)
+        else:
+            print rideForm.errors
+    else:
+        rideForm = RideForm(prefix='ride')
+        sourceAddressForm = AddressForm(prefix='source')
+        destinationAddressForm = AddressForm(prefix='destination')
+        driverForm = DriverForm(prefix='driver')
+        form_list =  {'rideForm': rideForm,
+                           'sourceAddressForm' : sourceAddressForm,
+                           'destinationAddressForm':destinationAddressForm,
+                           'driverForm' : driverForm
+                          }
+    return render_to_response('rides/postride.html',form_list,context)
+    
 @login_required
 def user_logout(request):
     # Since we know the user is logged in, we can now just log them out.

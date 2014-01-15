@@ -1,0 +1,49 @@
+{% extends 'rides/base.html' %}
+{% load static %}
+
+{% block title %}Post Ride{% endblock %}
+
+{% block body_block %}
+
+
+<div class="hero-unit">
+    <div class="container">
+    <ul id="user-form-errors" class="form-error" style="display:none"></ul>
+        <form class="form-signin span8" id="ride_form" method="post" action="/rides/postride/"
+              enctype="multipart/form-data">
+            {% csrf_token %}
+            <h2 class="form-signin-heading">Post Your Ride Here</h2>
+            <!-- Display each form here -->
+			
+			{% for field in sourceAddressForm.visible_fields %}
+            {{ field.errors }}
+            <span>From</span><br>
+            <span>{{ field }}<br /></span>
+            {% endfor %}
+            
+            {% for field in destinationAddressForm.visible_fields %}
+            {{ field.errors }}
+            <span>To</span><br>
+            <span>{{ field }}<br /></span>
+            {% endfor %}
+            
+            {% for field in rideForm.visible_fields %}
+            {{ field.errors }}
+            <span>{{ field.help_text }}</span><br>
+            <span>{{ field }}<br /></span>
+            {% endfor %}
+            
+            {% for field in driverForm.visible_fields %}
+            {{ field.errors }}
+            <span>{{ field.help_text }}</span><br>
+            <span>{{ field }}<br /></span>
+            {% endfor %}
+            
+
+            <br />
+            <!-- Provide a button to click to submit the form. -->
+            <input class="btn btn-primary" type="submit" name="submit" value="Confirm Ride"/>
+        </form>
+    </div>
+</div>
+{% endblock %}

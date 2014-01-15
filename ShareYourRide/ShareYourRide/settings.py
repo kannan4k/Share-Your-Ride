@@ -141,7 +141,6 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'rides',
     'south',
-    'registration',
 )
 
 LOGIN_REDIRECT_URL = '/rides'

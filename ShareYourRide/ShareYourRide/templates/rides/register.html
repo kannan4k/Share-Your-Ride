@@ -1,13 +1,14 @@
 {% extends 'rides/base.html' %}
+{% load static %}
 
-{% block title %}Register with Rango{% endblock %}
+{% block title %}Register with ShareYourRide{% endblock %}
 
 {% block body_block %}
 <div class="hero-unit">
-    <h1>Register with Rango</h1>
+    <h1>Register with ShareYourRide</h1>
     <br />
-
     <div class="container">
+    <ul id="user-form-errors" class="form-error" style="display:none"></ul>
         {% if registered %}
         <p>Thank you for registering.</p>
 
@@ -21,14 +22,14 @@
 
             {% for field in user_form.visible_fields %}
             {{ field.errors }}
-            {{ field.help_text }}<br />
-            {{ field }}<br />
+            <span>{{ field.help_text }}</span><br>
+            <span>{{ field }}<br /></span>
             {% endfor %}
 
             {% for field in profile_form.visible_fields %}
             {{ field.errors }}
-            {{ field.help_text }}<br />
-            {{ field }}<br />
+            <span>{{ field.help_text }}</span><br>
+            <span>{{ field }}<br /></span>
             {% endfor %}
 
             <br />

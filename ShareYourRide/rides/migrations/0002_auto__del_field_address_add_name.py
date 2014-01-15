@@ -8,76 +8,15 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'UserProfile'
-        db.create_table(u'rides_userprofile', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('user', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['auth.User'], unique=True)),
-            ('phone_num', self.gf('django.db.models.fields.TextField')(blank=True)),
-            ('website', self.gf('django.db.models.fields.URLField')(max_length=200, blank=True)),
-            ('picture', self.gf('django.db.models.fields.files.ImageField')(max_length=100, blank=True)),
-        ))
-        db.send_create_signal(u'rides', ['UserProfile'])
-
-        # Adding model 'Address'
-        db.create_table(u'rides_address', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('add_name', self.gf('django.db.models.fields.TextField')(max_length=45, blank=True)),
-            ('add_address', self.gf('django.db.models.fields.TextField')(max_length=80, blank=True)),
-            ('add_city', self.gf('django.db.models.fields.TextField')(max_length=50, blank=True)),
-            ('add_state', self.gf('django.db.models.fields.TextField')(max_length=30, blank=True)),
-            ('add_zip', self.gf('django.db.models.fields.TextField')(max_length=6, blank=True)),
-            ('add_lat', self.gf('django.db.models.fields.FloatField')(blank=True)),
-            ('add_lng', self.gf('django.db.models.fields.FloatField')(blank=True)),
-            ('add_type', self.gf('django.db.models.fields.TextField')(max_length=30, blank=True)),
-        ))
-        db.send_create_signal(u'rides', ['Address'])
-
-        # Adding model 'Ride'
-        db.create_table(u'rides_ride', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('add_source', self.gf('django.db.models.fields.related.ForeignKey')(related_name='source', to=orm['rides.Address'])),
-            ('add_destination', self.gf('django.db.models.fields.related.ForeignKey')(related_name='destination', to=orm['rides.Address'])),
-            ('ride_starttime', self.gf('django.db.models.fields.DateTimeField')(blank=True)),
-            ('ride_endtime', self.gf('django.db.models.fields.DateTimeField')(blank=True)),
-            ('ride_comment', self.gf('django.db.models.fields.TextField')(max_length=140, blank=True)),
-        ))
-        db.send_create_signal(u'rides', ['Ride'])
-
-        # Adding model 'Driver'
-        db.create_table(u'rides_driver', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('ride_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['rides.Ride'])),
-            ('user_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
-            ('drv_carseats', self.gf('django.db.models.fields.SmallIntegerField')()),
-            ('drv_expiration', self.gf('django.db.models.fields.DateTimeField')(blank=True)),
-        ))
-        db.send_create_signal(u'rides', ['Driver'])
-
-        # Adding model 'Rider'
-        db.create_table(u'rides_rider', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('ride_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['rides.Ride'])),
-            ('user_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
-            ('add_pickup', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['rides.Address'])),
-        ))
-        db.send_create_signal(u'rides', ['Rider'])
+        # Deleting field 'Address.add_name'
+        db.delete_column(u'rides_address', 'add_name')
 
 
     def backwards(self, orm):
-        # Deleting model 'UserProfile'
-        db.delete_table(u'rides_userprofile')
-
-        # Deleting model 'Address'
-        db.delete_table(u'rides_address')
-
-        # Deleting model 'Ride'
-        db.delete_table(u'rides_ride')
-
-        # Deleting model 'Driver'
-        db.delete_table(u'rides_driver')
-
-        # Deleting model 'Rider'
-        db.delete_table(u'rides_rider')
+        # Adding field 'Address.add_name'
+        db.add_column(u'rides_address', 'add_name',
+                      self.gf('django.db.models.fields.TextField')(default='', max_length=45, blank=True),
+                      keep_default=False)
 
 
     models = {
@@ -123,7 +62,6 @@ class Migration(SchemaMigration):
             'add_city': ('django.db.models.fields.TextField', [], {'max_length': '50', 'blank': 'True'}),
             'add_lat': ('django.db.models.fields.FloatField', [], {'blank': 'True'}),
             'add_lng': ('django.db.models.fields.FloatField', [], {'blank': 'True'}),
-            'add_name': ('django.db.models.fields.TextField', [], {'max_length': '45', 'blank': 'True'}),
             'add_state': ('django.db.models.fields.TextField', [], {'max_length': '30', 'blank': 'True'}),
             'add_type': ('django.db.models.fields.TextField', [], {'max_length': '30', 'blank': 'True'}),
             'add_zip': ('django.db.models.fields.TextField', [], {'max_length': '6', 'blank': 'True'}),
@@ -143,8 +81,8 @@ class Migration(SchemaMigration):
             'add_source': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'source'", 'to': u"orm['rides.Address']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'ride_comment': ('django.db.models.fields.TextField', [], {'max_length': '140', 'blank': 'True'}),
-            'ride_endtime': ('django.db.models.fields.DateTimeField', [], {'blank': 'True'}),
-            'ride_starttime': ('django.db.models.fields.DateTimeField', [], {'blank': 'True'})
+            'ride_endtime': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now', 'blank': 'True'}),
+            'ride_starttime': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now', 'blank': 'True'})
         },
         u'rides.rider': {
             'Meta': {'object_name': 'Rider'},
