@@ -1,0 +1,50 @@
+{% extends 'rides/base.html' %}
+{% load static %}
+
+{% block title %}ShareYourRide: Ride Details{% endblock %}
+
+{% block body_block %}
+<div class="hero-unit">
+    <h1>Ride Details</h1>
+    <div class="container">
+    {% if ride %}
+    <table>
+            <tr><td>{{ ride.type }}</td></tr>
+            <tr><td>{{ ride.add_source }}</td></tr>
+            <tr><td>{{ ride.add_destination }}</td></tr>
+            <tr><td>{{ ride.ride_startDateTime }}</td></tr>
+            <tr><td>{{ ride.ride_returnDateTime }}</td></tr>
+            <tr><td>{{ ride.ride_comment }}</td></tr>
+	</table>
+	{% endif %}
+    </div>
+</div>
+
+<div class="hero-unit">
+    <h1>Ride Details</h1>
+    <div class="container">
+    {% if result_list %}
+        <!-- Display search results in an ordered list -->
+        <div style="clear: both;">
+            <ol>
+            {% for result in result_list %}
+                <li>
+                {% if result %}
+                    <a href="/rides/ridedetails/{{ result.pk }}">{{ result.pk }}</a>
+                    <em>{{ result.add_source }}</em>
+                    <em>{{ result.add_destination }}</em>
+                    <em>{{ result.ride_startDateTime }}</em>
+                    <em>{{ result.ride_returnDateTime }}</em>
+                    <em>{{ result.ride_comment }}</em>
+                 {% endif %}
+                </li>
+            {% endfor %}
+            </ol>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+
+

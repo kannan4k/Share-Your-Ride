@@ -12,28 +12,22 @@ class UserProfile (models.Model):
         return self.user.username
     
 class Address(models.Model):
-    add_address = models.TextField(max_length=140,blank=True)
+    add_address = models.TextField(max_length=80,blank=True)
+    add_city = models.TextField(null=True,max_length=50,blank=True)
+    add_state = models.TextField(null=True,max_length=30,blank=True)
+    add_zip = models.TextField(null=True,max_length=6,blank=True)
+    add_lat = models.FloatField(default=0.0)
+    add_lng = models.FloatField(default=0.0)
+    add_type = models.TextField(null=True,max_length=30,blank=True)
     def __unicode__(self):
         return self.add_address
     
 class Ride(models.Model):
-    
-    CHOICES = (
-        ('None','None'),
-        ('anytime','anytime'),
-        ('early','early (12a-8a)'),
-        ('morning','morning (8a-12p)'),
-        ('afternoon','afternoon (12p-5p)'),
-        ('evening','evening (5p-9p)'),
-        ('night','night (9p-12a)')
-    )    
     type = models.BooleanField(default=False)
     add_source = models.ForeignKey(Address, related_name='source')
     add_destination = models.ForeignKey(Address, related_name='destination')
-    ride_startDateTime = models.DateTimeField(default= datetime.datetime.now, blank=True)
-    ride_startPref = models.CharField(max_length=10, choices=CHOICES, default='None')
-    ride_returnDateTime = models.DateTimeField(default= datetime.datetime.now, blank=True)
-    ride_returnPref = models.CharField(max_length=10, choices=CHOICES, default='None') 
+    ride_starttime = models.DateTimeField(default= datetime.datetime.now, blank=True)
+    ride_endtime = models.DateTimeField(default= datetime.datetime.now, blank=True)
     ride_comment = models.TextField(null=True,max_length=140,blank=True)
     def __unicode__(self):
         return self.ride_comment
@@ -42,8 +36,10 @@ class Driver(models.Model):
     ride_id = models.ForeignKey(Ride)
     user_id = models.ForeignKey(User)
     drv_carseats = models.SmallIntegerField(null=True,blank=False)
+    drv_expiration = models.DateTimeField(default= datetime.datetime.now, null=True, blank=True)
     def __unicode__(self):
         return self.user_id.username
+    
     
 class Rider(models.Model):
     ride_id = models.ForeignKey(Ride)

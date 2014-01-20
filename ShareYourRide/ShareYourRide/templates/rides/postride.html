@@ -14,7 +14,7 @@
             {% csrf_token %}
             <h2 class="form-signin-heading">Post Your Ride Here</h2>
             <!-- Display each form here -->
-			
+
 			{% for field in sourceAddressForm.visible_fields %}
             {{ field.errors }}
             <span>From</span><br>
@@ -28,17 +28,17 @@
             {% endfor %}
             
             {% for field in rideForm.visible_fields %}
-            {{ field.errors }}
-            <span>{{ field.help_text }}</span><br>
-            <span>{{ field }}<br /></span>
+	            		{{ field.errors }}
+			            <span>{{ field.help_text }}</span><br>
+			            <span>{{ field }}<br /></span>
             {% endfor %}
+            
             
             {% for field in driverForm.visible_fields %}
             {{ field.errors }}
             <span>{{ field.help_text }}</span><br>
             <span>{{ field }}<br /></span>
             {% endfor %}
-            
 
             <br />
             <!-- Provide a button to click to submit the form. -->

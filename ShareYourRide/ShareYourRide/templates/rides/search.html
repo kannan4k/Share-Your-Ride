@@ -1,0 +1,44 @@
+{% extends 'rides/base.html' %}
+
+{% load static %}
+
+{% block title %}Search{% endblock %}
+
+{% block body_block %}
+<div class="hero-unit">
+    <h1>Search Rides</h1>
+    <br/>
+
+    <div class="container-fluid">
+       <form class="form-signin span12" id="user_form" method="post" action="/rides/search/">
+            {% csrf_token %}
+            <!-- Display the search form elements here -->
+            <input type="text" size="50" name="from" value="" id="query" />
+            <input type="text" size="50" name="to" value="" id="query" />
+            <input class="timepicker" name="date" type="text"><br>
+            <input class="btn btn-primary" type="submit" name="submit" value="Search" />
+            <br />
+        </form>
+
+        {% if result_list %}
+        <!-- Display search results in an ordered list -->
+        <div style="clear: both;">
+            <ol>
+            {% for result in result_list %}
+                <li>
+                {% if result %}
+                    <a href="/rides/ridematches/{{ result.pk }}">{{ result.pk }}</a>
+                    <em>{{ result.add_source }}</em>
+                    <em>{{ result.add_destination }}</em>
+                    <em>{{ result.ride_startDateTime }}</em>
+                    <em>{{ result.ride_returnDateTime }}</em>
+                    <em>{{ result.ride_comment }}</em>
+                 {% endif %}
+                </li>
+            {% endfor %}
+            </ol>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
